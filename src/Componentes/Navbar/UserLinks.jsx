@@ -63,10 +63,10 @@ const UserLinks = () => {
       </div>
 
       <div className="mx-4 flex items-center">
-        <Tooltip content="Sign Out " placement="bottom">
+        <Tooltip content="Sign Out " placement="bottom" className="z-10">
           <Avatar src={avatar} size="xs" alt="avatar"></Avatar>
         </Tooltip>
-        <p classsName="ml-4 font-roboto text-sm text-black font-medium no-underline">
+        <p className="ml-4 font-roboto text-sm text-black font-medium no-underline">
           User
         </p>
       </div>
