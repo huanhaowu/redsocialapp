@@ -6,6 +6,7 @@ import React, {
   useEffect,
 } from "react";
 import { Avatar } from "@material-tailwind/react";
+import { Alert } from "@material-tailwind/react";
 import avatar from "../../assets/images/avatar.jpg";
 import { Button } from "@material-tailwind/react";
 import live from "../../assets/images/live.png";
@@ -33,6 +34,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+import PostCard from "./PostCard";
 
 const Main = () => {
   const { user, userData } = useContext(AuthContext);
@@ -136,7 +138,7 @@ const Main = () => {
 
   useEffect(() => {
     const postData = async () => {
-      const q = query(collectionRef, orderBy("timestamp", "asc"));
+      const q = query(collectionRef, orderBy("timestamp", "desc"));
       await onSnapshot(q, (doc) => {
         dispatch({
           type: SUBMIT_POSTS,
@@ -158,7 +160,7 @@ const Main = () => {
         <div className="flex items-center border-b-2 border-gray-300 pb-4 pl-4 w-full ">
           <Avatar
             size="xs"
-            src={avatar}
+            src={user?.photoURL || avatar}
             alt="avatar"
             className="rounded-full"
           ></Avatar>
@@ -233,7 +235,34 @@ const Main = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col py-4 w-full">{/* posts */}</div>
+      <div className="flex flex-col py-4 w-full">
+        {state.error ? (
+          <div className="flex justify-center items-center">
+            <Alert color="red">Algo salio mal... Intentalo otra vez.</Alert>
+          </div>
+        ) : (
+          <div>
+            {state.posts.length > 0 &&
+              state?.posts?.map((post, index) => {
+                return (
+                  <PostCard
+                    key={index}
+                    logo={post?.logo}
+                    id={post.documentId}
+                    uid={post?.uid}
+                    name={post.name}
+                    email={post.email}
+                    image={post.image}
+                    text={post.text}
+                    timestamp={new Date(
+                      post?.timestamp?.toDate()
+                    )?.toUTCString()}
+                  ></PostCard>
+                );
+              })}
+          </div>
+        )}
+      </div>
       <div ref={scrollRef}>{/* referencia pa ahorita */}</div>
     </div>
   );

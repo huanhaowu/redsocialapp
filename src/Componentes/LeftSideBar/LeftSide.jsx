@@ -83,7 +83,7 @@ const LeftSide = () => {
 
         <div className="absolute -bottom-4 flex justify-center items-center">
           <Tooltip content="Profile" placement="top">
-            <Avatar className="h-10 w-10" src={avatar} alt="avatar"></Avatar>
+            <Avatar className="h-10 w-10" src={user?.photoURL || avatar} alt="avatar"></Avatar>
           </Tooltip>
         </div>
       </div>

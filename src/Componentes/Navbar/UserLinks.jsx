@@ -67,7 +67,7 @@ const UserLinks = () => {
 
       <div className="mx-4 flex items-center" onClick={signOutUser}>
         <Tooltip content="Sign Out " placement="bottom" className="z-10">
-          <Avatar src={avatar} size="xs" alt="avatar"></Avatar>
+          <Avatar src={user?.photoURL || avatar} size="xs" alt="avatar"></Avatar>
         </Tooltip>
         <p className="ml-4 font-roboto text-sm text-black font-medium no-underline">
           {user?.displayName === null && userData?.name !== undefined
