@@ -27,6 +27,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
+import CommentSection from "./CommentSection";
 
 const PostCard = ({ uid, id, logo, name, email, text, image, timestamp }) => {
   const { user } = useContext(AuthContext);
@@ -35,7 +36,6 @@ const PostCard = ({ uid, id, logo, name, email, text, image, timestamp }) => {
   const likesCollection = collection(db, "posts", id, "likes");
   const { ADD_LIKE, HANDLE_ERROR } = postActions;
   const [open, setOpen] = useState(false);
-
 
   const handleOpen = (e) => {
     e.preventDefault();
@@ -147,11 +147,14 @@ const PostCard = ({ uid, id, logo, name, email, text, image, timestamp }) => {
             <img className="h-8 mr-4" src={like} alt="like" />
             {state.likes?.length > 0 && state?.likes?.length}
           </button>
-          <div className="flex items-center cursor-pointer rounded-lg p-2 hover:bg-gray-100">
+          <div
+            className="flex items-center cursor-pointer rounded-lg p-2 hover:bg-gray-100"
+            onClick={handleOpen}
+          >
             <div className="flex items-center cursor-pointer">
               <img className="h-8 mr-4" src={comment} alt="comment" />
               <p className="font-roboto font-medium text-md text-gray-700 no-underline tracking-normal leading-none">
-                Comment
+                Comments
               </p>
             </div>
           </div>
@@ -163,6 +166,7 @@ const PostCard = ({ uid, id, logo, name, email, text, image, timestamp }) => {
           </div>
         </div>
       </div>
+      {open && <CommentSection postId={id}></CommentSection>}
     </div>
   );
 };
