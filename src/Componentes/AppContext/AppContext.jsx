@@ -15,7 +15,6 @@ import {
   getDocs,
   addDoc,
   onSnapshot,
-  doc,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
@@ -50,7 +49,7 @@ const AppContext = ({ children }) => {
     }
   };
 
-  const loginWithUserAndEmail = async (name, email, password) => {
+  const loginWithEmailAndPassword = async (email, password) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
@@ -91,7 +90,7 @@ const AppContext = ({ children }) => {
   };
 
   const userStateChanged = async () => {
-    onAuthStateChanged(auth, async () => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         const q = query(collectionUsersRef, where("uid", "==", user?.uid));
         await onSnapshot(q, (doc) => {
@@ -110,20 +109,22 @@ const AppContext = ({ children }) => {
     if (user || userData) {
       navigate("/");
     } else {
-      navigate("login");
+      navigate("/login");
     }
     return () => userStateChanged();
   }, []);
 
   const initialState = {
     signInWithGoogle: signInWithGoogle,
-    loginWithUserAndEmail: loginWithUserAndEmail,
+    loginWithEmailAndPassword: loginWithEmailAndPassword,
     registerWithEmailAndPassword: registerWithEmailAndPassword,
     sendPasswordToUser: sendPasswordToUser,
     signOutUser: signOutUser,
     user: user,
     userData: userData,
   };
+
+  console.log("userData", userData);
 
   return (
     <div>

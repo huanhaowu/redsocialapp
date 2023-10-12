@@ -1,14 +1,31 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Typography } from "@material-tailwind/react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { AuthContext } from "../AppContext/AppContext";
+import { auth, onAuthStateChanged } from "../firebase/firebase";
 
 const Login = () => {
-  const { signInWithGoogle } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+
+  const { signInWithGoogle, loginWithEmailAndPassword } =
+    useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setLoading(true);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigate("/");
+        setLoading(false);
+      } else {
+        setLoading(false);
+      }
+    });
+  }, [navigate]);
 
   let initialValues = {
     email: "",
@@ -27,9 +44,10 @@ const Login = () => {
     e.preventDefault();
     const { email, password } = formik.values;
     if (formik.isValid === true) {
-      alert("good");
+      loginWithEmailAndPassword(email, password);
       setLoading(true);
     } else {
+      setLoading(false);
       alert("Revise los datos ingresados.");
     }
     console.log("formik", formik);
