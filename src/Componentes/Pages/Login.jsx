@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Typography } from "@material-tailwind/react";
 import ClipLoader from "react-spinners/ClipLoader";
+import { AuthContext } from "../AppContext/AppContext";
 
 const Login = () => {
+  const { signInWithGoogle } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
 
   let initialValues = {
@@ -100,6 +102,7 @@ const Login = () => {
               <button
                 type="button"
                 className="w-full bg-red-500 text-white p-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 mb-4"
+                onClick={signInWithGoogle}
               >
                 Sign in with Google
               </button>
