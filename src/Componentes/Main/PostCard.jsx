@@ -121,16 +121,16 @@ const PostCard = ({ uid, id, logo, name, email, text, image, timestamp }) => {
       <div className="flex flex-col py-4 bg-white rounded-t-3xl">
         <div className="flex items-center pb-4 ml-2">
           <Avatar
-            size="xs"
-            variant="circular"
+            className="rounded-full"
+            style={{ width: "25px", height: "25px" }}
             src={logo || avatar}
             alt="avatar"
           ></Avatar>
-          <div className="flex flex-col">
-            <p className="ml-4 py-2 font-roboto font-medium text-sm text-gray-700 no-underline tracking-normal leading-none">
+          <div className="flex flex-col ml-4">
+            <p className="ml-2 py-2 font-roboto font-medium text-sm text-gray-700 no-underline tracking-normal leading-none">
               {email}
             </p>
-            <p className="ml-4 font-roboto font-medium text-sm text-gray-700 no-underline tracking-normal leading-none">
+            <p className="ml-2 font-roboto font-medium text-sm text-gray-700 no-underline tracking-normal leading-none">
               Publicado: {timestamp}
             </p>
           </div>
@@ -148,9 +148,10 @@ const PostCard = ({ uid, id, logo, name, email, text, image, timestamp }) => {
           )}
         </div>
         <div>
-          <p className="ml-4 pb-4 font-roboto font-medium text-sm text-gray-700 no-underline tracking-normal leading-none">
+          <p className="ml-4 pb-4 text-left font-roboto font-medium text-sm text-gray-700 no-underline tracking-normal leading-none">
             {text}
           </p>
+
           {image && (
             <img className="h-[500px] w-full" src={image} alt="postImage"></img>
           )}

@@ -97,8 +97,8 @@ const RightSide = () => {
                   <div className="flex items-center my-2 cursor-pointer">
                     <div className="flex items-center">
                       <Avatar
-                        size="xs"
-                        variant="circular"
+                        className="rounded-full"
+                        style={{ width: "25px", height: "25px" }}
                         src={friend?.image || avatar}
                         alt="avatar"
                       ></Avatar>

@@ -1,22 +1,20 @@
 import React from "react";
-import NavLinks from "./NavLinks";
 import UserLinks from "./UserLinks";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="flex justify-between items-center border-b border-gray-100 w-full px-44 py-2">
-      <Link to="/">
-        <div className="text-3xl font-extrabold text-gray-900 light:text-white font-roboto">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r to-blue-400 from-red-600">
-            La Red Social
-          </span>{" "}
-        </div>
-      </Link>
-      <div className="flex justify-center item-center mx-auto">
-        <NavLinks></NavLinks>
+    <div className="flex justify-between items-center border-b border-gray-100 w-full px-30 py-2">
+      <div className="flex-grow text-center ml-60">
+        <Link to="/">
+          <div className="text-4xl font-extrabold text-gray-900 light:text-white font-roboto">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r to-blue-400 from-red-600">
+              La Red Social
+            </span>
+          </div>
+        </Link>
       </div>
-      <div>
+      <div className="mr-7">
         <UserLinks></UserLinks>
       </div>
     </div>
