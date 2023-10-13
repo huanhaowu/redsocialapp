@@ -7,6 +7,14 @@ import { AuthContext } from "../AppContext/AppContext";
 const UserLinks = () => {
   const { signOutUser, user, userData } = useContext(AuthContext);
 
+  const handleSignOut = () => {
+    const confirmation = window.confirm("¿Seguro que quieres salir?");
+    if (confirmation) {
+      localStorage.removeItem('consentBannerDismissed');
+      signOutUser();
+    }
+  };
+
   return (
     <div className="flex justify-center items-center cursor-pointer">
       <div className="hover:translate-y-1 duration-500 ease-in-out hover:text-blue-500">
@@ -65,7 +73,7 @@ const UserLinks = () => {
         </svg>
       </div>
 
-      <div className="mx-4 flex items-center" onClick={signOutUser}>
+      <div className="mx-4 flex items-center" onClick={handleSignOut}>
         <Tooltip content="Sign Out " placement="bottom" className="z-10">
           <Avatar src={user?.photoURL || avatar} size="xs" alt="avatar"></Avatar>
         </Tooltip>

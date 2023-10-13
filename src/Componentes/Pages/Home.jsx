@@ -11,13 +11,13 @@ const Home = () => {
       <div className="fixed top-0 z-10 w-full bg-white">
         <Navbar></Navbar>
       </div>
-      <div className=" flex bg-gray-100">
+      <div className="flex bg-gray-100">
         <div className="flex-auto w-[20%] fixed top-12">
           <LeftSide></LeftSide>
         </div>
         <div className="flex-auto w-[60%] absolute left-[20%] top-14 bg-gray-100 rounded-xl">
           <div className="w-[97%] mx-auto">
-            <CardSection></CardSection>
+            {/* <CardSection></CardSection> */}
             <Main></Main>
           </div>
         </div>

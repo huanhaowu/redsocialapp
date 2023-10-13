@@ -50,6 +50,10 @@ const Main = () => {
   const { SUBMIT_POSTS, HANDLE_ERROR } = postActions;
   const [progressBar, setProgressBar] = useState(0);
 
+  const [showConsentBanner, setShowConsentBanner] = useState(() => {
+    return !localStorage.getItem("consentBannerDismissed");
+  });
+
   const handleUpload = (e) => {
     setFile(e.target.files[0]);
   };
@@ -221,7 +225,7 @@ const Main = () => {
               </Button>
             )}
           </div>
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <img className="h-10 mr-4" src={live} alt="live" />
             <p className="font-roboto font-medium text-md text-gray-700 no-underline tracking-normal leading-none">
               Live
@@ -232,7 +236,7 @@ const Main = () => {
             <p className="font-roboto font-medium text-md text-gray-700 no-underline tracking-normal leading-none">
               Feeling
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="flex flex-col py-4 w-full">
@@ -264,6 +268,21 @@ const Main = () => {
         )}
       </div>
       <div ref={scrollRef}>{/* referencia pa ahorita */}</div>
+      {showConsentBanner && (
+        <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4 bg-blue-500 text-white text-center rounded w-full max-w-2xl">
+          We use cookies to enhance your experience. By continuing to visit this
+          site you agree to our use of cookies.
+          <button
+            onClick={() => {
+              setShowConsentBanner(false);
+              localStorage.setItem("consentBannerDismissed", "true");
+            }}
+            className="ml-4 bg-white text-blue-500 px-2 py-1 rounded"
+          >
+            Got it!
+          </button>
+        </div>
+      )}
     </div>
   );
 };

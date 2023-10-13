@@ -6,14 +6,16 @@ import { Typography } from "@material-tailwind/react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { AuthContext } from "../AppContext/AppContext";
 import { auth, onAuthStateChanged } from "../firebase/firebase";
+import { useCookies } from "react-cookie"; // Import the useCookies hook
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
-
   const { signInWithGoogle, loginWithEmailAndPassword } =
     useContext(AuthContext);
-
   const navigate = useNavigate();
+
+  // Initialize the useCookies hook
+  const [cookies, setCookie] = useCookies(["userEmail"]);
 
   useEffect(() => {
     setLoading(true);
@@ -46,12 +48,17 @@ const Login = () => {
     if (formik.isValid === true) {
       loginWithEmailAndPassword(email, password);
       setLoading(true);
+
+      // Set the email cookie when the user logs in
+      setCookie("userEmail", email, { path: "/" });
+      console.log('Stored userEmail cookie:', cookies.userEmail);
     } else {
       setLoading(false);
       alert("Revise los datos ingresados.");
     }
     console.log("formik", formik);
   };
+
   const formik = useFormik({ initialValues, validationSchema, handleSumbit });
 
   return (

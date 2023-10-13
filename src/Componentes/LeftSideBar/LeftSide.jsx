@@ -121,7 +121,7 @@ const LeftSide = () => {
         </p>
         <PayPalButton />
       </div>
-      <div className="flex flex-col pl-2">
+      {/* <div className="flex flex-col pl-2">
         <div className="flex items-center pb-4">
           <img className="h-10" src={location} alt="location" />
           <p className="font-roboto font-bold text-lg no-underline tracking-normal leading-none">
@@ -165,10 +165,10 @@ const LeftSide = () => {
             Social Network
           </p>
         </div>
-      </div>
+      </div> */}
       <div className="flex flex-col justify-center items-center pt-4">
         <p className="font-roboto font-bold text-lg no-underline tracking-normal leading-none py-2">
-          Random Ads
+          Patrocinadores
         </p>
         <div
           style={{ width: `${progressBar()}%` }}
