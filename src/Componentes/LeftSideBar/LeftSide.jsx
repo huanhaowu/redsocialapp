@@ -132,7 +132,7 @@ const LeftSide = () => {
           {user?.email || userData?.email}
         </p>
         <p className="font-roboto font-medium text-sm text-gray-700 no-underline tracking-normal leading-none mb-4">
-          Obten el premium
+          Obtén el premium:
         </p>
         <PayPalButton />
       </div>

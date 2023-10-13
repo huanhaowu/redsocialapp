@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import waterslide from "../../assets/images/waterslide.jpg";
 import { AuthContext } from "../AppContext/AppContext";
 import { Link } from "react-router-dom";
 import { Avatar } from "@material-tailwind/react";
@@ -76,14 +75,14 @@ const RightSide = () => {
     <div className="flex flex-col h-screen bg-white shadow-lg border-2 rounded-l-xl">
       <div className="mx-2 mt-10">
         <p className="font-roboto font-medium text-sm text-gray-700 no-underline tracking-normal leading-none">
-          Friends:{" "}
+          Amigos:{" "}
         </p>
         <input
           className="border-0 outline-none mt-4"
           name="input"
           value={input}
           type="text"
-          placeholder="Search Friends"
+          placeholder="Buscar Amigos"
           onChange={(e) => setInput(e.target.value)}
         />
         {friendList?.length > 0 ? (
