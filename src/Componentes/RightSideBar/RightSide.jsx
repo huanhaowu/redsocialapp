@@ -92,7 +92,7 @@ const RightSide = () => {
                 className="flex items-center justify-between hover:bg-gray-100 duration-300 ease-in-out"
                 key={friend.id}
               >
-                <Link to="">
+                <Link to={`/profile/${friend.id}`}>
                   <div className="flex items-center my-2 cursor-pointer">
                     <div className="flex items-center">
                       <Avatar
