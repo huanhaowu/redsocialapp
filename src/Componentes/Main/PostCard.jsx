@@ -36,6 +36,7 @@ const PostCard = ({ uid, id, logo, name, email, text, image, timestamp }) => {
   const likesCollection = collection(db, "posts", id, "likes");
   const { ADD_LIKE, HANDLE_ERROR } = postActions;
   const [open, setOpen] = useState(false);
+  const singlePostDocument = doc(db, "posts", id);
 
   const handleOpen = (e) => {
     e.preventDefault();
@@ -74,6 +75,21 @@ const PostCard = ({ uid, id, logo, name, email, text, image, timestamp }) => {
         await setDoc(likesRef, {
           id: user?.uid,
         });
+      }
+    } catch (error) {
+      alert(error.message);
+      console.log(error.message);
+    }
+  };
+
+  const deletePost = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (user?.uid === uid) {
+        await deleteDoc(singlePostDocument);
+      } else {
+        alert("No puedes borrar este post, no es tuyo.");
       }
     } catch (error) {
       alert(error.message);
@@ -158,7 +174,10 @@ const PostCard = ({ uid, id, logo, name, email, text, image, timestamp }) => {
               </p>
             </div>
           </div>
-          <div className="flex items-center cursor-pointer rounded-lg p-2 hover:bg-gray-100">
+          <div
+            className="flex items-center cursor-pointer rounded-lg p-2 hover:bg-gray-100"
+            onClick={deletePost}
+          >
             <img className="h-8 mr-4" src={borrar} alt="delete" />
             <p className="font-roboto font-medium text-md text-gray-700 no-underline tracking-normal leading-none">
               Delete
