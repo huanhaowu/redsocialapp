@@ -9,9 +9,8 @@ const Navbar = () => {
       <Link to="/">
         <div className="text-3xl font-extrabold text-gray-900 light:text-white font-roboto">
           <span className="text-transparent bg-clip-text bg-gradient-to-r to-blue-400 from-red-600">
-            IntecSocial
+            La Red Social
           </span>{" "}
-          App
         </div>
       </Link>
       <div className="flex justify-center item-center mx-auto">

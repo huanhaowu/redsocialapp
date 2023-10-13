@@ -16,15 +16,51 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
+const soundex = (s) => {
+  const a = s.toLowerCase().split("");
+  const f = a.shift();
+  const r = a
+    .map((v, i, a) => {
+      const b = {
+        a: "",
+        e: "",
+        i: "",
+        o: "",
+        u: "",
+        b: 1,
+        f: 1,
+        p: 1,
+        v: 1,
+        c: 2,
+        g: 2,
+        j: 2,
+        k: 2,
+        q: 2,
+        s: 2,
+        x: 2,
+        z: 2,
+        d: 3,
+        t: 3,
+        l: 4,
+        m: 5,
+        n: 5,
+        r: 6,
+      }[v];
+      return (b === a[i - 1] ? "" : b) || "";
+    })
+    .join("");
+  return (f + r + "000").slice(0, 4).toUpperCase();
+};
+
 const RightSide = () => {
   const [input, setInput] = useState("");
   const { user, userData } = useContext(AuthContext);
   const friendList = userData?.friends;
 
   const searchFriends = (data) => {
-    return data.filter((item) =>
-      item["name"].toLowerCase().includes(input.toLowerCase())
-    );
+    if (!input.trim()) return data; // Si el input está vacío, devuelve todos los amigos
+    const inputSoundex = soundex(input);
+    return data.filter((item) => soundex(item["name"]) === inputSoundex);
   };
 
   const removeFriend = async (id, name, image) => {
@@ -35,6 +71,7 @@ const RightSide = () => {
       friends: arrayRemove({ id: id, name: name, image: image }),
     });
   };
+
   return (
     <div className="flex flex-col h-screen bg-white shadow-lg border-2 rounded-l-xl">
       <div className="flex flex-col items-center relative pt-10">

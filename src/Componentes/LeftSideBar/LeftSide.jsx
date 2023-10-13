@@ -13,11 +13,32 @@ import apps from "../../assets/images/apps.jpg";
 import tik from "../../assets/images/tik.jpg";
 import { AuthContext } from "../AppContext/AppContext";
 
+function PayPalButton() {
+  return (
+    <form
+      action="https://www.paypal.com/cgi-bin/webscr"
+      method="post"
+      target="_top"
+    >
+      <input type="hidden" name="cmd" value="_s-xclick" />
+      <input type="hidden" name="hosted_button_id" value="BEHAFUMD3FX4S" />
+      <input type="hidden" name="currency_code" value="USD" />
+      <input
+        type="image"
+        src="https://www.paypalobjects.com/en_US/i/btn/btn_subscribe_LG.gif"
+        border="0"
+        name="submit"
+        title="PayPal - The safer, easier way to pay online!"
+        alt="Subscribe"
+      />
+    </form>
+  );
+}
 
 const LeftSide = () => {
   const [data, setData] = useState([]);
   const count = useRef(0);
-  const {user, userData} = useContext(AuthContext);
+  const { user, userData } = useContext(AuthContext);
 
   const handleRandom = (arr) => {
     setData(arr[Math.floor(Math.random() * arr?.length)]);
@@ -83,20 +104,22 @@ const LeftSide = () => {
 
         <div className="absolute -bottom-4 flex justify-center items-center">
           <Tooltip content="Profile" placement="top">
-            <Avatar className="h-10 w-10" src={user?.photoURL || avatar} alt="avatar"></Avatar>
+            <Avatar
+              className="h-10 w-10"
+              src={user?.photoURL || avatar}
+              alt="avatar"
+            ></Avatar>
           </Tooltip>
         </div>
       </div>
       <div className="flex flex-col items-center pt-6">
-        <p className="font-roboto font-medium text-md text-gray-700 no-underline tracking-normal leading-none">
+        <p className="font-roboto font-medium text-md text-gray-700 no-underline tracking-normal leading-none mb-2">
           {user?.email || userData?.email}
         </p>
-        <p className="font-roboto font-medium text-xs text-gray-700 no-underline tracking-normal leading-none">
-          Access exclusive tools and insights
+        <p className="font-roboto font-medium text-xs text-gray-700 no-underline tracking-normal leading-none mb-2">
+          Obten el premium
         </p>
-        <p className="font-roboto font-medium text-sm text-gray-700 no-underline tracking-normal leading-none py-2">
-          Try premium free
-        </p>
+        <PayPalButton />
       </div>
       <div className="flex flex-col pl-2">
         <div className="flex items-center pb-4">
@@ -149,7 +172,6 @@ const LeftSide = () => {
         </p>
         <div
           style={{ width: `${progressBar()}%` }}
-
           className="bg-blue-600 rounded-xl h-1 mb-4"
         ></div>
         <img className="h-36 rounded-lg" src={data.image} alt="ads" />
