@@ -2,7 +2,6 @@ import React from "react";
 import Navbar from "../Navbar/Navbar";
 import LeftSide from "../LeftSideBar/LeftSide";
 import RightSide from "../RightSideBar/RightSide";
-import CardSection from "../Main/CardSection";
 import Main from "../Main/Main";
 
 const Home = () => {
@@ -17,7 +16,6 @@ const Home = () => {
         </div>
         <div className="flex-auto w-[60%] absolute left-[20%] top-14 bg-gray-100 rounded-xl">
           <div className="w-[97%] mx-auto">
-            {/* <CardSection></CardSection> */}
             <Main></Main>
           </div>
         </div>
