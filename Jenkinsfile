@@ -12,7 +12,7 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 // Install Node.js and dependencies
-                sh 'nvm install 14' // Example: using Node.js version 14
+                //sh 'nvm install 14' // Example: using Node.js version 14
                 sh 'npm install'
             }
         }
