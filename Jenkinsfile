@@ -13,7 +13,6 @@ pipeline {
                 git url: 'https://github.com/jpbrugal/redsocialapp', branch: 'main'
             }
         }
-
         stage('Install Dependencies') {
             steps {
                 script {
