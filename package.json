@@ -27,16 +27,17 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "rules": {
-      "no-unused-vars": "warn",
-      "eqeqeq": "off"
-    }
-  },
+"eslintConfig": {
+  "extends": [
+    "react-app",
+    "react-app/jest"
+  ],
+  "rules": {
+    "no-unused-vars": "warn",
+    "eqeqeq": "off",
+    "react-hooks/exhaustive-deps": "off"
+  }
+},
   "browserslist": {
     "production": [
       ">0.2%",

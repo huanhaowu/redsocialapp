@@ -103,7 +103,7 @@ const AppContext = ({ children }) => {
       }
     });
   };
-
+// eslint-disable-next-line
   useEffect(() => {
     userStateChanged();
     if (user || userData) {

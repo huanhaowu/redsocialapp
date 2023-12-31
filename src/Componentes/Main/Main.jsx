@@ -138,6 +138,7 @@ const Main = () => {
     }
   };
 
+// eslint-disable-next-line
   useEffect(() => {
     const postData = async () => {
       const q = query(collectionRef, orderBy("timestamp", "desc"));
@@ -152,7 +153,6 @@ const Main = () => {
         setProgressBar(0);
       });
     };
-
     return () => postData();
   }, [SUBMIT_POSTS]);
 
