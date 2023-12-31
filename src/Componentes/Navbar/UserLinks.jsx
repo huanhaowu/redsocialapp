@@ -10,7 +10,7 @@ const UserLinks = () => {
   const handleSignOut = () => {
     const confirmation = window.confirm("¿Seguro que quieres salir?");
     if (confirmation) {
-      localStorage.removeItem('consentBannerDismissed');
+      localStorage.removeItem("consentBannerDismissed");
       signOutUser();
     }
   };
@@ -75,7 +75,11 @@ const UserLinks = () => {
 
       <div className="mx-4 flex items-center" onClick={handleSignOut}>
         <Tooltip content="Sign Out " placement="bottom" className="z-10">
-          <Avatar src={user?.photoURL || avatar} size="xs" alt="avatar"></Avatar>
+          <Avatar
+            src={user?.photoURL || avatar}
+            size="xs"
+            alt="avatar"
+          ></Avatar>
         </Tooltip>
         <p className="ml-4 font-roboto text-sm text-black font-medium no-underline">
           {user?.displayName === null && userData?.name !== undefined
