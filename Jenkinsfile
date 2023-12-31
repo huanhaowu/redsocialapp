@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the code from the main branch
-                git url: 'https://github.com/jpbrugal/redsocialapp', branch: 'main'
+                git url: 'https://github.com/jpbrugal/redsocialapp', branch: '*/main'
             }
         }
         stage('Install Dependencies') {
