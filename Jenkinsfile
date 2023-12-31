@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
                     // Run ESLint
-                    sh 'npx eslint .'
+                    sh 'npx eslint . --max-warnings=-1'
                 }
             }
         }
