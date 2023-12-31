@@ -1,42 +1,78 @@
 pipeline {
     agent any
 
+    environment {
+        // Set the Firebase token as an environment variable
+        FIREBASE_TOKEN = 'AIzaSyCwa373ojIxpNADe7jzLgfZjhn1ppwxRTU'
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                // Check out source code from your Git repository
-                checkout scm
+                // Checkout the code from the main branch
+                git url: 'https://github.com/jpbrugal/redsocialapp', branch: 'main'
             }
         }
 
-        stage('Install dependencies') {
+        stage('Install Dependencies') {
             steps {
-                // Install Node.js and dependencies
-                //sh 'nvm install 14' // Example: using Node.js version 14
-                sh 'npm install'
+                script {
+                    // Install npm dependencies
+                    sh 'npm install'
+                }
             }
         }
 
-        stage('Test') {
+        stage('Lint') {
             steps {
-                // Run your test suite
-                sh 'npm test'
+                script {
+                    // Run ESLint
+                    sh 'npx eslint .'
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    // Build the project
+                    sh 'npm run build'
+                }
+            }
+        }
+
+        stage('Deploy to Development') {
+            steps {
+                script {
+                    // Deploy to Firebase (development environment)
+                    sh 'firebase deploy --only hosting:development --token ${FIREBASE_TOKEN}'
+                }
+            }
+        }
+
+        stage('Deploy to Staging') {
+            steps {
+                script {
+                    // Deploy to Firebase (staging environment)
+                    sh 'firebase deploy --only hosting:staging --token ${FIREBASE_TOKEN}'
+                }
+            }
+        }
+
+        stage('Deploy to Production') {
+            steps {
+                script {
+                    // Deploy to Firebase (production environment)
+                    sh 'firebase deploy --only hosting:production --token ${FIREBASE_TOKEN}'
+                }
             }
         }
     }
 
     post {
         always {
-            // Perform actions like archiving artifacts, logs, or cleanup
-            echo 'Build process completed.'
-        }
-        success {
-            // Actions to perform on successful build
-            echo 'Tests run successfully.'
-        }
-        failure {
-            // Actions to perform on build failure
-            echo 'Tests failed.'
+            // Actions to perform after pipeline completion
+            echo 'Pipeline execution is complete.'
         }
     }
 }
