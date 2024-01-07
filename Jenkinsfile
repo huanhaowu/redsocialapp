@@ -3,33 +3,36 @@ pipeline {
 
     environment {
         // Define your repository URL here
-        REPO_URL = 'https://github.com/jpbrugal/redsocialapp'
+        REPO_URL = "https://github.com/jpbrugal/redsocialapp"
     }
 
     stages {
         stage('Desarrollo') {
             steps {
-                // Checking out from the main branch
-                checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: REPO_URL]]])
-
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: "${REPO_URL}"]]])
                 script {
-                    // Add explicit closure to avoid ambiguity
-                    def desarrolloActions = {
-                        // Merge and push to desarrollo branch
-                        sh 'git checkout desarrollo'
-                        sh 'git merge main'
-                        sh 'git push origin desarrollo'
-                    }
-                    desarrolloActions.call()
+                    try {
+                        def desarrolloActions = {
+                            sh 'git checkout desarrollo'
+                            sh 'git merge main'
+                            sh 'git push origin desarrollo'
+                        }
+                        desarrolloActions.call()
 
-                    def developmentTests = {
-                        // Run development tests
-                        sh 'npm install'
-                        sh 'firebase emulators:start --only firestore'
-                        sh 'npm test'
-                        sh 'npm run build'
+                        def developmentTests = {
+                            sh 'npm install'
+                            sh 'firebase emulators:start --only firestore'
+                            sh 'npm test'
+                            sh 'npm run build'
+                            // Ensure to stop the Firebase emulator
+                            sh 'firebase emulators:stop'
+                        }
+                        developmentTests.call()
+                    } catch (Exception e) {
+                        // Handle any errors in this stage
+                        echo "Error in Desarrollo stage: ${e.message}"
+                        throw e
                     }
-                    developmentTests.call()
                 }
             }
         }
@@ -37,19 +40,23 @@ pipeline {
         stage('QA') {
             steps {
                 script {
-                    def qaActions = {
-                        // Merge and push to qa branch
-                        sh 'git checkout qa'
-                        sh 'git merge desarrollo'
-                        sh 'git push origin qa'
-                    }
-                    qaActions.call()
+                    try {
+                        def qaActions = {
+                            sh 'git checkout qa'
+                            sh 'git merge desarrollo'
+                            sh 'git push origin qa'
+                        }
+                        qaActions.call()
 
-                    def qaTests = {
-                        // Run QA tests
-                        sh 'npx eslint /src'
+                        def qaTests = {
+                            sh 'npx eslint /src'
+                            // Add additional QA test commands here
+                        }
+                        qaTests.call()
+                    } catch (Exception e) {
+                        echo "Error in QA stage: ${e.message}"
+                        throw e
                     }
-                    qaTests.call()
                 }
             }
         }
@@ -57,15 +64,19 @@ pipeline {
         stage('Producción') {
             steps {
                 script {
-                    def produccionActions = {
-                        // Merge and push to produccion branch
-                        sh 'git checkout produccion'
-                        sh 'git merge qa'
-                        sh 'git push origin produccion'
-                    }
-                    produccionActions.call()
+                    try {
+                        def produccionActions = {
+                            sh 'git checkout produccion'
+                            sh 'git merge qa'
+                            sh 'git push origin produccion'
+                        }
+                        produccionActions.call()
 
-                    // Add any production tests here
+                        // Add any production tests or steps here
+                    } catch (Exception e) {
+                        echo "Error in Producción stage: ${e.message}"
+                        throw e
+                    }
                 }
             }
         }
@@ -76,8 +87,13 @@ pipeline {
             }
             steps {
                 script {
-                    // Deploy to Firebase
-                    // Add deployment commands here
+                    try {
+                        // Add Firebase deployment commands here
+                        // Example: sh 'firebase deploy --only hosting'
+                    } catch (Exception e) {
+                        echo "Error in Deploy stage: ${e.message}"
+                        throw e
+                    }
                 }
             }
         }
@@ -87,6 +103,7 @@ pipeline {
         always {
             // Post-build actions
             sh 'git checkout main'
+            // Ensure the Firestore emulator is stopped
             sh 'firebase emulators:exec --only firestore "echo Firestore Emulator stopped"'
         }
     }
