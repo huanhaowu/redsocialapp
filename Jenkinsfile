@@ -2,67 +2,68 @@ pipeline {
     agent any
 
     environment {
-        // Set the Firebase token as an environment variable
-        FIREBASE_TOKEN = 'AIzaSyCwa373ojIxpNADe7jzLgfZjhn1ppwxRTU'
+        // Define your repository URL here
+        REPO_URL = 'https://github.com/jpbrugal/redsocialapp'
     }
 
     stages {
-        stage('Checkout') {
+        stage('Desarrollo') {
             steps {
-                // Checkout the code from the main branch
-                git url: 'https://github.com/jpbrugal/redsocialapp'
-            }
-        }
-        stage('Install Dependencies') {
-            steps {
+                // Checking out from the main branch
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: REPO_URL]]])
+
                 script {
-                    // Install npm dependencies
+                    // Merge and push to desarrollo branch
+                    sh 'git checkout desarrollo'
+                    sh 'git merge main'
+                    sh 'git push origin desarrollo'
+                }
+                script {
+                    // Run development tests
                     sh 'npm install'
+                    sh 'firebase emulators:start --only firestore'
+                    sh 'npm test'
+                    sh 'npm run build'                    
                 }
             }
         }
 
-        stage('Lint') {
+        stage('QA') {
             steps {
                 script {
-                    // Run ESLint
-                    sh 'npx eslint . || true'
+                    // Merge and push to qa branch
+                    sh 'git checkout qa'
+                    sh 'git merge desarrollo'
+                    sh 'git push origin qa'
+                }
+                script {
+                    // Run QA tests
+                    sh 'npx eslint /src'
                 }
             }
         }
 
-        stage('Build') {
+        stage('Producción') {
             steps {
                 script {
-                    // Build the project
-                    sh 'npm run build'
+                    // Merge and push to produccion branch
+                    sh 'git checkout produccion'
+                    sh 'git merge qa'
+                    sh 'git push origin produccion'
+                }
+                script {
+                    // Run production tests
                 }
             }
         }
 
-        stage('Deploy to Development') {
-            steps {
-                script {
-                    // Deploy to Firebase (development environment)
-                    sh 'firebase deploy --only hosting:development --token ${FIREBASE_TOKEN}'
-                }
+        stage('Deploy to Firebase') {
+            when {
+                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
             }
-        }
-
-        stage('Deploy to Staging') {
             steps {
                 script {
-                    // Deploy to Firebase (staging environment)
-                    sh 'firebase deploy --only hosting:staging --token ${FIREBASE_TOKEN}'
-                }
-            }
-        }
-
-        stage('Deploy to Production') {
-            steps {
-                script {
-                    // Deploy to Firebase (production environment)
-                    sh 'firebase deploy --only hosting:production --token ${FIREBASE_TOKEN}'
+                    // Deploy to Firebase
                 }
             }
         }
@@ -70,8 +71,10 @@ pipeline {
 
     post {
         always {
-            // Actions to perform after pipeline completion
-            echo 'Pipeline execution is complete.'
+            // Post-build actions
+            sh 'git checkout main'
+            sh 'firebase emulators:exec --only firestore "echo Firestore Emulator stopped"'
         }
     }
 }
+
