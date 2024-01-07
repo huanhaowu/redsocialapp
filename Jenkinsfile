@@ -14,7 +14,7 @@ pipeline {
                     try {
                         def desarrolloActions = {
                             sh 'git checkout desarrollo'
-                            sh 'git merge main'
+                            sh 'git merge master'
                             sh 'git push origin desarrollo'
                         }
                         desarrolloActions.call()
