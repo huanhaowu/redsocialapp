@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Desarrollo') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: "${REPO_URL}"]]])
+                checkout([$class: 'GitSCM', branches: [[name: 'master']], userRemoteConfigs: [[url: "${REPO_URL}"]]])
                 script {
                     try {
                         def desarrolloActions = {
