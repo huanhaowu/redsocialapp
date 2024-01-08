@@ -9,7 +9,10 @@ pipeline {
     stages {
         stage('Desarrollo') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: 'master']], userRemoteConfigs: [[url: "${REPO_URL}"]]])
+                checkout([$class: 'GitSCM', branches: [[name: 'master']],
+                 userRemoteConfigs: [[ url: "${REPO_URL}", credentialsId: 'GitHubJenkins']]
+                ])
+
                 script {
                     try {
                         def desarrolloActions = {
@@ -50,7 +53,7 @@ pipeline {
 
                         def qaTests = {
                             sh 'npx eslint /src'
-                            // Add additional QA test commands here
+                        // Add additional QA test commands here
                         }
                         qaTests.call()
                     } catch (Exception e) {
@@ -72,7 +75,7 @@ pipeline {
                         }
                         produccionActions.call()
 
-                        // Add any production tests or steps here
+                    // Add any production tests or steps here
                     } catch (Exception e) {
                         echo "Error in Producción stage: ${e.message}"
                         throw e
@@ -88,8 +91,8 @@ pipeline {
             steps {
                 script {
                     try {
-                        // Add Firebase deployment commands here
-                        // Example: sh 'firebase deploy --only hosting'
+                    // Add Firebase deployment commands here
+                    // Example: sh 'firebase deploy --only hosting'
                     } catch (Exception e) {
                         echo "Error in Deploy stage: ${e.message}"
                         throw e
