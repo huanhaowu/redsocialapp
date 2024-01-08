@@ -43,17 +43,21 @@ pipeline {
         stage('QA') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'jenkinsgit', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                    withCredentials([string(credentialsId: 'jenkinsGitHubToken', variable: 'GIT_TOKEN')]) {
                         try {
                             def qaActions = {
+                                sh 'git config --global credential.helper "!f() { echo username=jpbrugal; echo password=$GIT_TOKEN; }; f"'
                                 sh 'git checkout qa'
+                                sh 'git fetch origin desarrollo:desarrollo'
                                 sh 'git merge desarrollo'
-                                sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO_URL.replace('https://', '')} qa"
+                                sh 'git push origin qa'
+                                sh 'git config --global --unset credential.helper'
                             }
                             qaActions.call()
 
                             def qaTests = {
                                 sh 'npx eslint /src'
+                                sh 'npx jest'
                                 // Add additional QA test commands here
                             }
                             qaTests.call()
