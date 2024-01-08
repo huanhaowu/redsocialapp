@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Define your repository URL here
-        REPO_URL = 'git@github.com:jpbrugal/redsocialapp.git'
+        REPO_URL = "https://github.com/jpbrugal/redsocialapp"
     }
 
     stages {
@@ -25,7 +25,7 @@ pipeline {
                             sh 'git merge master'
                             //sh 'git add .'
                             //sh 'git commit -m "Updated files"'
-                            sh 'git push origin desarrollo --verbose'
+                            sh 'git push origin/desarrollo'
                         }
                         desarrolloActions.call()
 
