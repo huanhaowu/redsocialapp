@@ -10,7 +10,7 @@ pipeline {
         stage('Desarrollo') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: 'master']],
-                 userRemoteConfigs: [[ url: "${REPO_URL}", credentialsId: 'GitHubJenkins']]
+                 userRemoteConfigs: [[ url: "${REPO_URL}", credentialsId: '0ff577dc-9a01-4d8f-9cb6-a93ed65d6978']]
                 ])
 
                 script {
