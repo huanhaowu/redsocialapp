@@ -9,16 +9,17 @@ pipeline {
     stages {
         stage('Desarrollo') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: 'master']],
+                // First, check out the desarrollo branch
+                checkout([$class: 'GitSCM', branches: [[name: '*/desarrollo']],
                  userRemoteConfigs: [[ url: "${REPO_URL}", credentialsId: '0ff577dc-9a01-4d8f-9cb6-a93ed65d6978']]
                 ])
 
                 script {
                     try {
                         def desarrolloActions = {
-                            sh 'git checkout desarrollo'
+                            // You are already on the desarrollo branch after checkout
                             sh 'git merge master'
-                            sh 'git push desarrollo'
+                            sh 'git push origin desarrollo'
                         }
                         desarrolloActions.call()
 
