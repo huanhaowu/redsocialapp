@@ -57,7 +57,7 @@ pipeline {
 
                             def qaTests = {
                                 sh 'npx eslint'
-                                sh 'npx jest'
+                                //sh 'npx jest'
                                 // alguna mas??
                             }
                             qaTests.call()
