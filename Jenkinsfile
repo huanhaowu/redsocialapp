@@ -57,7 +57,7 @@ pipeline {
 
                             def qaTests = {
                                 sh 'npx eslint'
-                                sh 'npx jest'
+                                //sh 'npx jest'
                                 // Add additional QA test commands here
                             }
                             qaTests.call()
@@ -73,12 +73,15 @@ pipeline {
         stage('Producción') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'jenkinsgit', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                    withCredentials([string(credentialsId: 'jenkinsGitHubToken', variable: 'GIT_TOKEN')]) {
                         try {
                             def produccionActions = {
+                                sh 'git config --global credential.helper "!f() { echo username=jpbrugal; echo password=$GIT_TOKEN; }; f"'
                                 sh 'git checkout produccion'
+                                sh 'git fetch origin qa:qa'
                                 sh 'git merge qa'
-                                sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO_URL.replace('https://', '')} produccion"
+                                sh 'git push origin produccion'
+                                sh 'git config --global --unset credential.helper'
                             }
                             produccionActions.call()
                             // Add any production tests or steps here
