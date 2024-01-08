@@ -8,29 +8,16 @@ pipeline {
     stages {
         stage('Desarrollo') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/**']],
-                 userRemoteConfigs: [[url: "${REPO_URL}", credentialsId: 'jenkinsgit']]
-                ])
-
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'jenkinsgit', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                    withCredentials([string(credentialsId: 'jenkinsGitHubToken', variable: 'GIT_TOKEN')]) {
                         try {
-                            def desarrolloActions = {
-                                sh 'git checkout desarrollo'
-                                sh 'git fetch origin master:master'
-                                sh 'git merge master'
-                                sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO_URL.replace('https://', '')} desarrollo"
-                            }
-                            desarrolloActions.call()
-
-                            def developmentTests = {
-                                sh 'npm install'
-                                sh 'firebase emulators:start --only firestore'
-                                sh 'npm test'
-                                sh 'npm run build'
-                                sh 'firebase emulators:stop'
-                            }
-                            developmentTests.call()
+                            sh 'git config --global credential.helper "!f() { echo username=jpbrugal; echo password=$GIT_TOKEN; }; f"'
+                            sh 'git checkout desarrollo'
+                            sh 'git fetch origin master:master'
+                            sh 'git merge master'
+                            sh 'git push origin desarrollo'
+                            // Reset the credential helper configuration after use
+                            sh 'git config --global --unset credential.helper'
                         } catch (Exception e) {
                             echo "Error in Desarrollo stage: ${e.message}"
                             throw e
