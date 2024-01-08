@@ -16,10 +16,9 @@ pipeline {
                 script {
                     try {
                         def desarrolloActions = {
-                            sh 'git config --global credential.helper store'
                             sh 'git checkout desarrollo'
                             sh 'git merge master'
-                            sh 'git push origin desarrollo'
+                            sh 'git push desarrollo'
                         }
                         desarrolloActions.call()
 
