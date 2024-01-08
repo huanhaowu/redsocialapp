@@ -26,7 +26,7 @@ pipeline {
                             //sh 'git add .'
                             //sh 'git commit -m "Updated files"'
                             try {
-                                sh 'git push -u origin desarrollo'
+                                sh 'git push -u origin */desarrollo --verbose'
                             } catch (Exception pushException) {
                                 echo "Error during git push: ${pushException.message}"
                                 throw pushException
