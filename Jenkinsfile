@@ -24,7 +24,7 @@ pipeline {
 
                         def developmentTests = {
                             sh 'npm install'
-                            sh 'firebase emulators:start --only firestore'
+                           //sh 'firebase emulators:start --only firestore'
                             sh 'npm test'
                             sh 'npm run build'
                             // Ensure to stop the Firebase emulator
