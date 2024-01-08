@@ -114,7 +114,7 @@ pipeline {
 
     post {
         always {
-            sh 'git checkout main'
+            sh 'git checkout master'
             sh 'firebase emulators:exec --only firestore "echo Firestore Emulator stopped"'
         }
     }
