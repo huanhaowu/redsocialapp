@@ -85,7 +85,7 @@ pipeline {
                             }
                             produccionActions.call()
 
-                            def produccionTests{
+                            def produccionTests = {
                                 sh 'npm test Login.test.js'
                             }
                             produccionTests.call()
