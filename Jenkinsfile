@@ -11,6 +11,7 @@ pipeline {
                 script {
                     withCredentials([string(credentialsId: 'jenkinsGitHubToken', variable: 'GIT_TOKEN')]) {
                         try {
+                            def desarrolloActions = {
                             sh 'git config --global credential.helper "!f() { echo username=jpbrugal; echo password=$GIT_TOKEN; }; f"'
                             sh 'git checkout desarrollo'
                             sh 'git fetch origin master:master'
@@ -18,6 +19,18 @@ pipeline {
                             sh 'git push origin desarrollo'
                             // Reset the credential helper configuration after use
                             sh 'git config --global --unset credential.helper'
+                            }
+                            desarrolloActions.call()
+
+                        def developmentTests = {
+                            sh 'npm install'
+                            sh 'firebase emulators:start --only firestore'
+                            sh 'npm test'
+                            sh 'npm run build'
+                            // Ensure to stop the Firebase emulator
+                            sh 'firebase emulators:stop'
+                        }
+                        developmentTests.call()
                         } catch (Exception e) {
                             echo "Error in Desarrollo stage: ${e.message}"
                             throw e
