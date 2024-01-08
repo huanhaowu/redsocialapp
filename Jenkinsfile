@@ -23,9 +23,14 @@ pipeline {
                             sh 'git checkout desarrollo'
                             sh 'git fetch origin master:master'
                             sh 'git merge master'
-                            sh 'git add .'
-                            sh 'git commit -m "Updated files"'
-                            sh 'git push -u origin desarrollo'
+                            //sh 'git add .'
+                            //sh 'git commit -m "Updated files"'
+                            try {
+                                sh 'git push -u origin desarrollo'
+                            } catch (Exception pushException) {
+                                echo "Error during git push: ${pushException.message}"
+                                throw pushException
+                            }
                         }
                         desarrolloActions.call()
 
