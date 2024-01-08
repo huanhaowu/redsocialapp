@@ -25,10 +25,10 @@ pipeline {
                         def developmentTests = {
                             sh 'npm install'
                            //sh 'firebase emulators:start --only firestore'
-                            sh 'npm test || true'
+                            sh 'npm test'
                             sh 'npm run build'
                             // Ensure to stop the Firebase emulator
-                            sh 'firebase emulators:stop'
+                           // sh 'firebase emulators:stop'
                         }
                         developmentTests.call()
                         } catch (Exception e) {
