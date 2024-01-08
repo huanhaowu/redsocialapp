@@ -2,14 +2,18 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-// Temporarily override console.error before all tests
+// Spy on console.log and console.error before all tests
+let consoleLogSpy;
+let consoleErrorSpy;
 beforeAll(() => {
-  global.console.error = jest.fn();
+  consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 });
 
-// Restore the original console.error after all tests
+// Restore the original console.log and console.error after all tests
 afterAll(() => {
-  global.console.error.mockRestore();
+  consoleLogSpy.mockRestore();
+  consoleErrorSpy.mockRestore();
 });
 
 test('renders learn react link', () => {
