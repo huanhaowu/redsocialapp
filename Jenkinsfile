@@ -23,12 +23,22 @@ pipeline {
                             desarrolloActions.call()
 
                         def developmentTests = {
-                            sh 'npm install'
+                            //sh 'npm install'
                            //sh 'firebase emulators:start --only firestore'
-                            sh 'npm test'
-                            sh 'npm run build'
+                            //sh 'npm test'
+                            //sh 'npm run build'
                             // Ensure to stop the Firebase emulator
                            // sh 'firebase emulators:stop'
+
+                           sh 'npm install'
+                        // Run tests and capture exit code
+                        def testExitCode = sh(script: 'npm test', returnStatus: true)
+                        echo "Test exit code: ${testExitCode}"
+                        if (testExitCode == 0) {
+                            sh 'npm run build'
+                        } else {
+                          error "Tests failed with exit code: ${testExitCode}"
+                        }
                         }
                         developmentTests.call()
                         } catch (Exception e) {
