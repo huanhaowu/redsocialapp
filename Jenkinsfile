@@ -56,7 +56,7 @@ pipeline {
                             qaActions.call()
 
                             def qaTests = {
-                                sh 'npx eslint /src'
+                                sh 'npx eslint'
                                 sh 'npx jest'
                                 // Add additional QA test commands here
                             }
