@@ -6,6 +6,16 @@ import Login from '../Componentes/Pages/Login';
 import { AuthContext } from '../Componentes/AppContext/AppContext';
 
 describe('Login Component Tests', () => {
+  // Temporarily override console.error before all tests in this suite
+  beforeAll(() => {
+    global.console.error = jest.fn();
+  });
+
+  // Restore the original console.error after all tests in this suite
+  afterAll(() => {
+    global.console.error.mockRestore();
+  });
+
   beforeEach(() => {
     // Mock the context values and functions used in the Login component
     const mockSignInWithGoogle = jest.fn();
