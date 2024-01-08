@@ -16,6 +16,10 @@ pipeline {
                 script {
                     try {
                         def desarrolloActions = {
+                            // Configure Git with a username and email
+                            sh 'git config user.email "jpbrugal@hotmail.com"'
+                            sh 'git config user.name "Jean"'
+
                             sh 'git checkout desarrollo'
                             sh 'git fetch origin master:master'
                             sh 'git merge master'
