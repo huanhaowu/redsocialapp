@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Define your repository URL here
-        REPO_URL = "https://github.com/jpbrugal/redsocialapp"
+        REPO_URL = 'git@github.com:jpbrugal/redsocialapp.git'
     }
 
     stages {
@@ -25,12 +25,7 @@ pipeline {
                             sh 'git merge master'
                             //sh 'git add .'
                             //sh 'git commit -m "Updated files"'
-                            try {
-                                sh 'git push -u origin */desarrollo --verbose'
-                            } catch (Exception pushException) {
-                                echo "Error during git push: ${pushException.message}"
-                                throw pushException
-                            }
+                            sh 'git push origin desarrollo --verbose'
                         }
                         desarrolloActions.call()
 
