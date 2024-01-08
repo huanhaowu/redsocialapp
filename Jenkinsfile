@@ -25,7 +25,7 @@ pipeline {
                         def developmentTests = {
                             sh 'npm install'
                            //sh 'firebase emulators:start --only firestore'
-                            //sh 'npm test'
+                            sh 'npm test'
                             sh 'npm run build'
                             // Ensure to stop the Firebase emulator
                            // sh 'firebase emulators:stop'
@@ -57,7 +57,7 @@ pipeline {
 
                             def qaTests = {
                                 sh 'npx eslint'
-                                //sh 'npx jest'
+                                sh 'npx jest'
                                 // alguna mas??
                             }
                             qaTests.call()
