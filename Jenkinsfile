@@ -58,7 +58,7 @@ pipeline {
                             def qaTests = {
                                 sh 'npx eslint'
                                 sh 'npx jest'
-                                // Add additional QA test commands here
+                                // alguna mas??
                             }
                             qaTests.call()
                         } catch (Exception e) {
@@ -84,7 +84,12 @@ pipeline {
                                 sh 'git config --global --unset credential.helper'
                             }
                             produccionActions.call()
-                            // Add any production tests or steps here
+
+                            def produccionTests{
+                                sh 'npm test Login.test.js'
+                            }
+                            produccionTests.call()
+                            //definir funcion y agregar comandos de prod (smoke test?)
                         } catch (Exception e) {
                             echo "Error in Producción stage: ${e.message}"
                             throw e
@@ -101,7 +106,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        // Add Firebase deployment commands here
+                        // deploy a firebase un avez success en prod
                         // Example: sh 'firebase deploy --only hosting'
                     } catch (Exception e) {
                         echo "Error in Deploy stage: ${e.message}"

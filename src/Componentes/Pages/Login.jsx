@@ -119,6 +119,7 @@ const Login = () => {
                 )}
               </div>
               <button
+                data-testid="signInButton"
                 type="submit"
                 className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mb-4"
               >
@@ -128,6 +129,7 @@ const Login = () => {
                 type="button"
                 className="w-full bg-red-500 text-white p-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 mb-4"
                 onClick={signInWithGoogle}
+                data-testid="googleSignInButton"
               >
                 Sign in with Google
               </button>
