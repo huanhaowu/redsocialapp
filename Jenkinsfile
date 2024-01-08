@@ -25,7 +25,7 @@ pipeline {
                             sh 'git merge master'
                             //sh 'git add .'
                             //sh 'git commit -m "Updated files"'
-                            sh 'git push origin/desarrollo'
+                            sh 'git push origin desarrollo'
                         }
                         desarrolloActions.call()
 
