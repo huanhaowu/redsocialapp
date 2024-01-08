@@ -11,6 +11,7 @@ function App() {
           <Pages></Pages>
         </AppContext>
       </BrowserRouter>
+      <a href="/learn">Learn React</a>
     </h1>
   );
 }
