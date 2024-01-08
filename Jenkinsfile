@@ -23,7 +23,7 @@ pipeline {
                             sh 'git checkout desarrollo'
                             sh 'git fetch origin master:master'
                             sh 'git merge master'
-                            //sh 'git add .'
+                            sh 'git add .'
                             //sh 'git commit -m "Updated files"'
                             sh 'git push -u origin desarrollo'
                         }
