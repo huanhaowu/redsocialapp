@@ -51,7 +51,7 @@ pipeline {
         }
         steps {
             script {
-                withCredentials([string(credentialsId: 'jenkinsGitHubToken', variable: 'GIT_TOKEN')]) {
+                withCredentials([file(credentialsId: 'firebaseCredentials', variable: 'FIREBASE_CREDENTIALS')]) {
                     retryOrAbort('Deploy to Firebase', {
                         firebaseActions()
                     })
@@ -133,6 +133,6 @@ def produccionTests() {
 }
 
 def firebaseActions(){
-    sh 'git checkout produccion'
+    //sh 'firebase login'
     sh 'firebase deploy --only hosting'
 }
