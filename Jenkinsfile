@@ -98,11 +98,11 @@ def desarrolloActions() {
 
 def developmentTests() {
     sh 'npm install'
-    //sh 'firebase emulators:start --only firestore'
+    sh 'firebase emulators:start --only firestore'
     //sh 'npm test'
     sh 'npm run build'
     // Ensure to stop the Firebase emulator
-    // sh 'firebase emulators:stop'
+    sh 'firebase emulators:stop'
     // Add this input step
     input(id: 'ProceedToQA', message: 'Apbrobar ir a QA?', ok: 'Yes')
 }
@@ -138,5 +138,5 @@ def produccionTests() {
 
 def firebaseActions(){
     sh 'git checkout produccion'
-    sh 'firebase deploy --only hosting --token AIzaSyCwa373ojIxpNADe7jzLgfZjhn1ppwxRTU'
+    sh 'firebase deploy --only hosting'
 }
