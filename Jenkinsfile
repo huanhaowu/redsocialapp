@@ -133,6 +133,5 @@ def produccionTests() {
 }
 
 def firebaseActions(){
-    sh 'firebase login:ci'
     sh 'firebase deploy'
 }
