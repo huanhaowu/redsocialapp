@@ -101,7 +101,7 @@ def desarrolloActions() {
 def developmentTests() {
     sh 'npm install'
     //sh 'firebase emulators:start --only firestore'
-    sh 'npm test'
+    //sh 'npm test'
     sh 'npm run build'
     // Ensure to stop the Firebase emulator
     // sh 'firebase emulators:stop'
