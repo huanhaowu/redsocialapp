@@ -25,12 +25,12 @@ pipeline {
                         def developmentTests = {
                             sh 'npm install'
                            //sh 'firebase emulators:start --only firestore'
-                            //sh 'npm test'
+                            sh 'npm test'
                             sh 'npm run build'
                             // Ensure to stop the Firebase emulator
                            // sh 'firebase emulators:stop'
                           // Add this input step
-                        input(id: 'ProceedToQA', message: 'Approve proceeding to QA?', ok: 'Yes')
+                        input(id: 'ProceedToQA', message: 'Apbrobar ir a QA?', ok: 'Yes')
                         }
                         developmentTests.call()
                         } catch (Exception e) {
@@ -60,8 +60,7 @@ pipeline {
                             def qaTests = {
                                 sh 'npx eslint'
                                 sh 'npx jest'
-                                // alguna mas??
-                                input(id: 'ProceedToProduccion', message: 'Approve proceeding to Produccion?', ok: 'Yes')
+                                input(id: 'ProceedToProduccion', message: 'Apbrobar ir a Produccion?', ok: 'Yes')
                             }
                             qaTests.call()
                         } catch (Exception e) {
@@ -90,7 +89,7 @@ pipeline {
 
                             def produccionTests = {
                                 sh 'npm run test-file -- Login.test.js'
-                                input(id: 'ProceedToFirebase', message: 'Approve proceeding to Firebase?', ok: 'Yes')
+                                input(id: 'ProceedToFirebase', message: 'Apbrobar ir a Firebase?', ok: 'Yes')
                             }
                             produccionTests.call()
                             //definir funcion y agregar comandos de prod (smoke test?)
