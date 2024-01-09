@@ -134,5 +134,5 @@ def produccionTests() {
 
 def firebaseActions(){
     //sh 'firebase login'
-    sh 'firebase deploy --project media-92083 --token $FIREBASE_CREDENTIALS'
+    sh 'firebase deploy'
 }
