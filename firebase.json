@@ -1,6 +1,5 @@
 {
   "hosting": {
-    "site": "media-92083.web.app",
     "public": "build",
     "ignore": [
       "firebase.json",
