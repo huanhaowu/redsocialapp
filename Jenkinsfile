@@ -64,7 +64,6 @@ pipeline {
     post {
         always {
             sh 'git checkout master'
-            //sh 'firebase emulators:exec --only firestore "echo Firestore Emulator stopped"'
         }
     }
 }
@@ -76,7 +75,7 @@ def retryOrAbort(stageName, Closure block) {
         echo "Error in ${stageName} stage: ${e.message}"
         def userChoice = input(
             id: 'userChoice', message: "Error encountered in ${stageName}. Choose an action:", 
-            parameters: [choice(name: 'ACTION', choices: ['retry', 'abort'], description: 'Select Action')]
+            parameters: [choice(name: 'ACTION', choices: ['retry'], description: 'Select Action')]
         )
         if (userChoice == 'retry') {
             echo "Retrying the ${stageName} stage..."
@@ -98,7 +97,7 @@ def desarrolloActions() {
 
 def developmentTests() {
     sh 'npm install'
-    //sh 'npm test'
+    sh 'npm test'
     sh 'npm run build'
     input(id: 'ProceedToQA', message: 'Apbrobar ir a QA?', ok: 'Yes')
 }
