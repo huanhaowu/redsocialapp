@@ -103,7 +103,6 @@ def developmentTests() {
     //sh 'firebase emulators:start --only firestore'
     //sh 'npm test'
     sh 'npm run build'
-    sh 'exit 1'
     // Ensure to stop the Firebase emulator
     // sh 'firebase emulators:stop'
     // Add this input step
