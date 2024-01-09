@@ -46,21 +46,19 @@ pipeline {
         }
 
         stage('Deploy to Firebase') {
-            when {
-                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
-            }
-            steps {
-                script {
-                    try {
-                        // deploy a firebase un avez success en prod
-                        // Example: sh 'firebase deploy --only hosting'
-                    } catch (Exception e) {
-                        echo "Error in Deploy stage: ${e.message}"
-                        throw e
-                    }
+        when {
+            expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+        }
+        steps {
+            script {
+                withCredentials([string(credentialsId: 'jenkinsGitHubToken', variable: 'GIT_TOKEN')]) {
+                    retryOrAbort('Deploy to Firebase', {
+                        firebaseActions()
+                    })
                 }
             }
         }
+    }
     }
 
     post {
@@ -136,4 +134,9 @@ def produccionActions() {
 def produccionTests() {
     sh 'npm run test-file -- Login.test.js'
     input(id: 'ProceedToFirebase', message: 'Apbrobar ir a Firebase?', ok: 'Yes')
+}
+
+def firebaseActions(){
+    sh 'git checkout produccion'
+    sh 'firebase deploy --only hosting --token AIzaSyCwa373ojIxpNADe7jzLgfZjhn1ppwxRTU'
 }
