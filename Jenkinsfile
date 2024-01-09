@@ -51,7 +51,7 @@ pipeline {
         }
         steps {
             script {
-                withCredentials([file(credentialsId: 'firebaseCredentials', variable: 'FIREBASE_CREDENTIALS')]) {
+                withCredentials([file(credentialsId: 'firebaseCredentials', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
                     retryOrAbort('Deploy to Firebase', {
                         firebaseActions()
                     })
@@ -133,5 +133,5 @@ def produccionTests() {
 }
 
 def firebaseActions(){
-    sh 'firebase deploy'
+     sh 'firebase deploy --only hosting --token "$FIREBASE_TOKEN"'
 }
