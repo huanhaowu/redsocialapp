@@ -61,6 +61,7 @@ pipeline {
                                 sh 'npx eslint'
                                 sh 'npx jest'
                                 // alguna mas??
+                                input(id: 'ProceedToProduccion', message: 'Approve proceeding to Produccion?', ok: 'Yes')
                             }
                             qaTests.call()
                         } catch (Exception e) {
@@ -89,6 +90,7 @@ pipeline {
 
                             def produccionTests = {
                                 sh 'npm run test-file -- Login.test.js'
+                                input(id: 'ProceedToFirebase', message: 'Approve proceeding to Firebase?', ok: 'Yes')
                             }
                             produccionTests.call()
                             //definir funcion y agregar comandos de prod (smoke test?)
