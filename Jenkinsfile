@@ -29,6 +29,8 @@ pipeline {
                             sh 'npm run build'
                             // Ensure to stop the Firebase emulator
                            // sh 'firebase emulators:stop'
+                          // Add this input step
+                        input(id: 'ProceedToQA', message: 'Approve proceeding to QA?', ok: 'Yes')
                         }
                         developmentTests.call()
                         } catch (Exception e) {
