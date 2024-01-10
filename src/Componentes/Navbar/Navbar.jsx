@@ -9,7 +9,7 @@ const Navbar = () => {
         <Link to="/">
           <div className="text-4xl font-extrabold text-gray-900 light:text-white font-roboto">
             <span className="text-transparent bg-clip-text bg-gradient-to-r to-blue-400 from-red-600">
-              La Red Social
+              Pedro Social
             </span>
           </div>
         </Link>
