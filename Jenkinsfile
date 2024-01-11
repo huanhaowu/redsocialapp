@@ -78,10 +78,10 @@ pipeline {
     post {
         always {
             sh 'git checkout master'
-        }
-        failure {
+
+               failure {
         emailext(
-            to: 'jpbrugal@hotmail.com',
+            to: 'jpbrugal81@gmail.com',
             subject: "Jenkins Build Failed: ${currentBuild.fullDisplayName}",
             body: """
             The Jenkins build for ${currentBuild.fullDisplayName} has failed.
@@ -92,7 +92,7 @@ pipeline {
     }
     success {
         emailext(
-            to: 'jpbrugal@hotmail.com',
+            to: 'jpbrugal81@gmail.com'
             subject: "Jenkins Build Succeeded: ${currentBuild.fullDisplayName}",
             body: """
             The Jenkins build for ${currentBuild.fullDisplayName} has succeeded.
@@ -101,6 +101,8 @@ pipeline {
             """
         )
     }
+        }
+     
     }
 }
 
