@@ -26,10 +26,16 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'jenkinsGitHubToken', variable: 'GIT_TOKEN')]) {
-                        retryOrAbort('QA', {
+                        withCredentials([file(credentialsId: 'firebaseCredentials', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]){
+                            
+                            retryOrAbort('QA', {
                             qaActions()
                             qaTests()
                         })
+                        
+                        }
+
+                        
                     }
                 }
             }
