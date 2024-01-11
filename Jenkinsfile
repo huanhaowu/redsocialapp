@@ -81,6 +81,7 @@ pipeline {
         }
         failure {
         emailext(
+            to: 'jpbrugal@hotmail.com',
             subject: "Jenkins Build Failed: ${currentBuild.fullDisplayName}",
             body: """
             The Jenkins build for ${currentBuild.fullDisplayName} has failed.
@@ -91,6 +92,7 @@ pipeline {
     }
     success {
         emailext(
+            to: 'jpbrugal@hotmail.com',
             subject: "Jenkins Build Succeeded: ${currentBuild.fullDisplayName}",
             body: """
             The Jenkins build for ${currentBuild.fullDisplayName} has succeeded.
