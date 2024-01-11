@@ -93,32 +93,7 @@ pipeline {
                 replyTo: 'jenkins@example.com',
                 mimeType: 'text/html'    
             )
-
-
-    //            failure {
-    //     emailext(
-    //         to: 'jpbrugal81@gmail.com',
-    //         subject: "Jenkins Build Failed: ${currentBuild.fullDisplayName}",
-    //         body: """
-    //         The Jenkins build for ${currentBuild.fullDisplayName} has failed.
-            
-    //         Build URL: ${env.BUILD_URL}
-    //         """
-    //     )
-    // }
-    // success {
-    //     emailext(
-    //         to: 'jpbrugal81@gmail.com'
-    //         subject: "Jenkins Build Succeeded: ${currentBuild.fullDisplayName}",
-    //         body: """
-    //         The Jenkins build for ${currentBuild.fullDisplayName} has succeeded.
-            
-    //         Build URL: ${env.BUILD_URL}
-    //         """
-    //     )
-    // }
         }
-     
     }
 }
 
@@ -153,9 +128,9 @@ def developmentTests() {
     sh 'npm install'
     //sh 'npm test'
     sh 'npm run build'
-    input(id: 'ApproveDeploy', message: 'Deploy?', ok: 'Yes')
+    input(id: 'ApproveDeploy', message: 'Deploy?', ok: 'Yes', submitter: 'jpbrugal,desarollador')
     sh 'firebase deploy --only hosting:desarrollo --token "$FIREBASE_TOKEN"'
-    input(id: 'ProceedToQA', message: 'Apbrobar ir a QA?', ok: 'Yes')
+    input(id: 'ProceedToQA', message: 'Apbrobar ir a QA?', ok: 'Yes', submitter: 'jpbrugal')
 }
 
 def qaActions() {
@@ -170,9 +145,9 @@ def qaActions() {
 def qaTests() {
     sh 'npx eslint'
     sh 'npx jest'
-    input(id: 'ApproveDeploy', message: 'Deploy?', ok: 'Yes')
+    input(id: 'ApproveDeploy', message: 'Deploy?', ok: 'Yes', submitter: 'jpbrugal,qa')
     sh 'firebase deploy --only hosting:qa --token "$FIREBASE_TOKEN"'
-    input(id: 'ProceedToProduccion', message: 'Apbrobar ir a Produccion?', ok: 'Yes')
+    input(id: 'ProceedToProduccion', message: 'Apbrobar ir a Produccion?', ok: 'Yes', submitter: 'jpbrugal')
 }
 
 def produccionActions() {
@@ -186,7 +161,7 @@ def produccionActions() {
 
 def produccionTests() {
     sh 'npm run test-file -- Login.test.js'
-    input(id: 'ApproveDeploy', message: 'Deploy?', ok: 'Yes')
+    input(id: 'ApproveDeploy', message: 'Deploy?', ok: 'Yes', submitter: 'jpbrugal')
     sh 'firebase deploy --only hosting:production --token "$FIREBASE_TOKEN"'
    //input(id: 'ProceedToFirebase', message: 'Apbrobar ir a Firebase?', ok: 'Yes')
 }
