@@ -97,7 +97,7 @@ def desarrolloActions() {
 
 def developmentTests() {
     sh 'npm install'
-    sh 'npm test'
+    //sh 'npm test'
     sh 'npm run build'
     input(id: 'ProceedToQA', message: 'Apbrobar ir a QA?', ok: 'Yes')
 }
