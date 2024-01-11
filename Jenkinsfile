@@ -10,10 +10,13 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'jenkinsGitHubToken', variable: 'GIT_TOKEN')]) {
-                        retryOrAbort('Desarrollo', {
+                        withCredentials([file(credentialsId: 'firebaseCredentials', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]){
+                            retryOrAbort('Desarrollo', {
                             desarrolloActions()
                             developmentTests()
                         })
+
+                        }
                     }
                 }
             }
