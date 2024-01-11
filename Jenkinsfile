@@ -79,6 +79,26 @@ pipeline {
         always {
             sh 'git checkout master'
         }
+        failure {
+        emailext(
+            subject: "Jenkins Build Failed: ${currentBuild.fullDisplayName}",
+            body: """
+            The Jenkins build for ${currentBuild.fullDisplayName} has failed.
+            
+            Build URL: ${env.BUILD_URL}
+            """
+        )
+    }
+    success {
+        emailext(
+            subject: "Jenkins Build Succeeded: ${currentBuild.fullDisplayName}",
+            body: """
+            The Jenkins build for ${currentBuild.fullDisplayName} has succeeded.
+            
+            Build URL: ${env.BUILD_URL}
+            """
+        )
+    }
     }
 }
 
