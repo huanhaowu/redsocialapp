@@ -79,28 +79,44 @@ pipeline {
         always {
             sh 'git checkout master'
 
-               failure {
-        emailext(
-            to: 'jpbrugal81@gmail.com',
-            subject: "Jenkins Build Failed: ${currentBuild.fullDisplayName}",
-            body: """
-            The Jenkins build for ${currentBuild.fullDisplayName} has failed.
+            emailext (
+                subject: "Pipeline Status: ${currentBuild.result}",
+                body: '''<html>
+                            <body>
+                                <p›Build Status: ${currentBuild.result}</p>
+                                <p›Build Number: §{currentBuild. number}</p>
+                                <p>Check the <a href="${env. BUILD _URL}">console output</a>.</p>
+                            </body>
+                        </html>''',
+                to: 'jpbrugal81@gmail.com',
+                from: 'jenkins@example.com',
+                replyTo: 'jenkins@example.com',
+                mimeType: 'text/html'    
+            )
+
+
+    //            failure {
+    //     emailext(
+    //         to: 'jpbrugal81@gmail.com',
+    //         subject: "Jenkins Build Failed: ${currentBuild.fullDisplayName}",
+    //         body: """
+    //         The Jenkins build for ${currentBuild.fullDisplayName} has failed.
             
-            Build URL: ${env.BUILD_URL}
-            """
-        )
-    }
-    success {
-        emailext(
-            to: 'jpbrugal81@gmail.com'
-            subject: "Jenkins Build Succeeded: ${currentBuild.fullDisplayName}",
-            body: """
-            The Jenkins build for ${currentBuild.fullDisplayName} has succeeded.
+    //         Build URL: ${env.BUILD_URL}
+    //         """
+    //     )
+    // }
+    // success {
+    //     emailext(
+    //         to: 'jpbrugal81@gmail.com'
+    //         subject: "Jenkins Build Succeeded: ${currentBuild.fullDisplayName}",
+    //         body: """
+    //         The Jenkins build for ${currentBuild.fullDisplayName} has succeeded.
             
-            Build URL: ${env.BUILD_URL}
-            """
-        )
-    }
+    //         Build URL: ${env.BUILD_URL}
+    //         """
+    //     )
+    // }
         }
      
     }
