@@ -134,7 +134,7 @@ def produccionTests() {
     input(id: 'ProceedToFirebase', message: 'Apbrobar ir a Firebase?', ok: 'Yes')
 }
 
-def firebaseActions(){
+def firebaseActions(target){
      //sh 'firebase deploy --only hosting --token "$FIREBASE_TOKEN"'
      sh 'firebase deploy --only hosting:${target} --token "$FIREBASE_TOKEN"'
 }
