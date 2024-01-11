@@ -80,12 +80,12 @@ pipeline {
             sh 'git checkout master'
 
             emailext (
-                subject: "Pipeline Status: ${currentBuild.result}",
+                subject: "Pipeline Status: ${BUILD_NUMBER}",
                 body: '''<html>
                             <body>
-                                <p›Build Status: ${currentBuild.result}</p>
-                                <p›Build Number: §{currentBuild. number}</p>
-                                <p>Check the <a href="${env. BUILD _URL}">console output</a>.</p>
+                                <p›Build Status: ${BUILD_STATUS}</p>
+                                <p›Build Number: ${BUILD_NUMBER}</p>
+                                <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
                             </body>
                         </html>''',
                 to: 'jpbrugal81@gmail.com',
