@@ -99,6 +99,7 @@ def developmentTests() {
     sh 'npm install'
     //sh 'npm test'
     sh 'npm run build'
+    firebaseActions('desarrollo')
     input(id: 'ProceedToQA', message: 'Apbrobar ir a QA?', ok: 'Yes')
 }
 
@@ -114,6 +115,7 @@ def qaActions() {
 def qaTests() {
     sh 'npx eslint'
     sh 'npx jest'
+    firebaseActions('qa')
     input(id: 'ProceedToProduccion', message: 'Apbrobar ir a Produccion?', ok: 'Yes')
 }
 
@@ -128,9 +130,11 @@ def produccionActions() {
 
 def produccionTests() {
     sh 'npm run test-file -- Login.test.js'
+    firebaseActions('production')
     input(id: 'ProceedToFirebase', message: 'Apbrobar ir a Firebase?', ok: 'Yes')
 }
 
 def firebaseActions(){
-     sh 'firebase deploy --only hosting --token "$FIREBASE_TOKEN"'
+     //sh 'firebase deploy --only hosting --token "$FIREBASE_TOKEN"'
+     sh 'firebase deploy --only hosting:${target} --token "$FIREBASE_TOKEN"'
 }

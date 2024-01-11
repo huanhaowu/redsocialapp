@@ -1,5 +1,21 @@
 {
   "projects": {
     "default": "media-92083"
-  }
+  },
+  "targets": {
+    "media-92083": {
+      "hosting": {
+        "desarrollo": [
+          "desarrolloenv"
+        ],
+        "qa": [
+          "qualityenv"
+        ],
+        "production": [
+          "media-92083"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
