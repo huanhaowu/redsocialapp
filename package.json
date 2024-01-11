@@ -24,9 +24,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:desarrollo": "react-scripts build && mv build build/desarrollo",
-    "build:qa": "react-scripts build && mv build build/qa",
-    "build:production": "react-scripts build && mv build build/production",
+    "build:desarrollo": "react-scripts build && mkdir -p build/desarrollo && mv build/* build/desarrollo/",
+    "build:qa": "react-scripts build && mkdir -p build/qa && mv build/* build/qa/",
+   "build:production": "react-scripts build && mkdir -p build/production && mv build/* build/production/",
     "test": "react-scripts test --detectOpenHandles --testPathIgnorePatterns Login.test.js",
     "test-file": "react-scripts test",
     "eject": "react-scripts eject"
