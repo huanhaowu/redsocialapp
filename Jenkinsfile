@@ -39,29 +39,34 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'jenkinsGitHubToken', variable: 'GIT_TOKEN')]) {
-                        retryOrAbort('Producción', {
+                        withCredentials([file(credentialsId: 'firebaseCredentials', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]){
+                            
+                            retryOrAbort('Produccion', {
                             produccionActions()
                             produccionTests()
-                        })
+                            })
+
+                        }
+                        
                     }
                 }
             }
         }
 
-        stage('Deploy to Firebase') {
-        when {
-            expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
-        }
-        steps {
-            script {
-                withCredentials([file(credentialsId: 'firebaseCredentials', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
-                    retryOrAbort('Deploy to Firebase', {
-                        firebaseActions()
-                    })
-                }
-            }
-        }
-    }
+    //     stage('Deploy to Firebase') {
+    //     when {
+    //         expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+    //     }
+    //     steps {
+    //         script {
+    //             withCredentials([file(credentialsId: 'firebaseCredentials', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+    //                 retryOrAbort('Deploy to Firebase', {
+    //                     firebaseActions()
+    //                 })
+    //             }
+    //         }
+    //     }
+    // }
     }
 
     post {
@@ -118,7 +123,7 @@ def qaActions() {
 def qaTests() {
     sh 'npx eslint'
     sh 'npx jest'
-    firebaseActions('qa')
+    sh 'firebase deploy --only hosting:qa --token "$FIREBASE_TOKEN"'
     input(id: 'ProceedToProduccion', message: 'Apbrobar ir a Produccion?', ok: 'Yes')
 }
 
@@ -133,14 +138,14 @@ def produccionActions() {
 
 def produccionTests() {
     sh 'npm run test-file -- Login.test.js'
-    firebaseActions('production')
+    //sh 'firebase deploy --only hosting:production --token "$FIREBASE_TOKEN"'
     input(id: 'ProceedToFirebase', message: 'Apbrobar ir a Firebase?', ok: 'Yes')
 }
 
-def firebaseActions(target){
+def firebaseActions(){
     withCredentials([file(credentialsId: 'firebaseCredentials', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
         //sh 'firebase deploy --only hosting --token "$FIREBASE_TOKEN"'
-     sh 'firebase deploy --only hosting:${target} --token "$FIREBASE_TOKEN"'
+        //sh 'firebase deploy --only hosting:production --token "$FIREBASE_TOKEN"'
     }
 
 }
