@@ -32,7 +32,7 @@ pipeline {
                             qaActions()
                             qaTests()
                         })
-                        
+
                         }
 
                         
@@ -113,6 +113,7 @@ def developmentTests() {
     sh 'npm install'
     //sh 'npm test'
     sh 'npm run build'
+    input(id: 'ApproveDeploy', message: 'Deploy?', ok: 'Yes')
     sh 'firebase deploy --only hosting:desarrollo --token "$FIREBASE_TOKEN"'
     input(id: 'ProceedToQA', message: 'Apbrobar ir a QA?', ok: 'Yes')
 }
@@ -129,6 +130,7 @@ def qaActions() {
 def qaTests() {
     sh 'npx eslint'
     sh 'npx jest'
+    input(id: 'ApproveDeploy', message: 'Deploy?', ok: 'Yes')
     sh 'firebase deploy --only hosting:qa --token "$FIREBASE_TOKEN"'
     input(id: 'ProceedToProduccion', message: 'Apbrobar ir a Produccion?', ok: 'Yes')
 }
@@ -144,8 +146,9 @@ def produccionActions() {
 
 def produccionTests() {
     sh 'npm run test-file -- Login.test.js'
-    //sh 'firebase deploy --only hosting:production --token "$FIREBASE_TOKEN"'
-    input(id: 'ProceedToFirebase', message: 'Apbrobar ir a Firebase?', ok: 'Yes')
+    input(id: 'ApproveDeploy', message: 'Deploy?', ok: 'Yes')
+    sh 'firebase deploy --only hosting:production --token "$FIREBASE_TOKEN"'
+   //input(id: 'ProceedToFirebase', message: 'Apbrobar ir a Firebase?', ok: 'Yes')
 }
 
 def firebaseActions(){
