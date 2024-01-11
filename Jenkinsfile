@@ -98,7 +98,7 @@ def desarrolloActions() {
 def developmentTests() {
     sh 'npm install'
     //sh 'npm test'
-    sh 'npm run build'
+    sh 'npm run build:desarrollo'
     firebaseActions('desarrollo')
     input(id: 'ProceedToQA', message: 'Apbrobar ir a QA?', ok: 'Yes')
 }
