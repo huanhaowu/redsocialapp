@@ -99,7 +99,7 @@ def developmentTests() {
     sh 'npm install'
     //sh 'npm test'
     sh 'npm run build'
-    firebaseActions('desarrollo')
+    sh 'firebase deploy --only hosting:desarrollo --token "$FIREBASE_TOKEN"'
     input(id: 'ProceedToQA', message: 'Apbrobar ir a QA?', ok: 'Yes')
 }
 
