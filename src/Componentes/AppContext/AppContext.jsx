@@ -5,9 +5,9 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
-} from "firebase/auth";
-import React, { createContext, useState, useEffect } from "react";
-import { auth, db, onAuthStateChanged } from "../firebase/firebase";
+} from 'firebase/auth';
+import React, { createContext, useState, useEffect } from 'react';
+import { auth, db, onAuthStateChanged } from '../firebase/firebase';
 import {
   query,
   where,
@@ -15,13 +15,13 @@ import {
   getDocs,
   addDoc,
   onSnapshot,
-} from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+} from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
 
 const AppContext = ({ children }) => {
-  const collectionUsersRef = collection(db, "users");
+  const collectionUsersRef = collection(db, 'users');
   const provider = new GoogleAuthProvider();
   const [user, setUser] = useState();
   const [userData, setUserData] = useState();
@@ -31,7 +31,7 @@ const AppContext = ({ children }) => {
     try {
       const popup = await signInWithPopup(auth, provider);
       const user = popup.user;
-      const q = query(collectionUsersRef, where("iud", "==", user.uid));
+      const q = query(collectionUsersRef, where('iud', '==', user.uid));
       const docs = await getDocs(q);
 
       if (docs.docs.length === 0) {
@@ -66,7 +66,7 @@ const AppContext = ({ children }) => {
       await addDoc(collectionUsersRef, {
         uid: user.uid,
         name,
-        providerId: "email/password",
+        providerId: 'email/password',
         email: user.email,
       });
     } catch (error) {
@@ -78,7 +78,7 @@ const AppContext = ({ children }) => {
   const sendPasswordToUser = async (email) => {
     try {
       await sendPasswordResetEmail(auth, email);
-      alert("Se ha enviado un correo para cambiar tu constraseña.");
+      alert('Se ha enviado un correo para cambiar tu constraseña.');
     } catch (error) {
       alert(error.message);
       console.log(error.message);
@@ -92,24 +92,24 @@ const AppContext = ({ children }) => {
   const userStateChanged = async () => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const q = query(collectionUsersRef, where("uid", "==", user?.uid));
+        const q = query(collectionUsersRef, where('uid', '==', user?.uid));
         await onSnapshot(q, (doc) => {
           setUserData(doc?.docs[0]?.data());
         });
         setUser(user);
       } else {
         setUser(null);
-        navigate("/login");
+        navigate('/login');
       }
     });
   };
-// eslint-disable-next-line
+  // eslint-disable-next-line
   useEffect(() => {
     userStateChanged();
     if (user || userData) {
-      navigate("/");
+      navigate('/');
     } else {
-      navigate("/login");
+      navigate('/login');
     }
     return () => userStateChanged();
   }, []);
@@ -124,7 +124,7 @@ const AppContext = ({ children }) => {
     userData: userData,
   };
 
-  console.log("userData", userData);
+  console.log('userData', userData);
 
   return (
     <div>

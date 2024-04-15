@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { Typography } from "@material-tailwind/react";
-import ClipLoader from "react-spinners/ClipLoader";
-import { AuthContext } from "../AppContext/AppContext";
-import { auth, onAuthStateChanged } from "../firebase/firebase";
-import { useCookies } from "react-cookie"; // Import the useCookies hook
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { Typography } from '@material-tailwind/react';
+import ClipLoader from 'react-spinners/ClipLoader';
+import { AuthContext } from '../AppContext/AppContext';
+import { auth, onAuthStateChanged } from '../firebase/firebase';
+import { useCookies } from 'react-cookie'; // Import the useCookies hook
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -15,13 +15,13 @@ const Login = () => {
   const navigate = useNavigate();
 
   // Initialize the useCookies hook
-  const [cookies, setCookie] = useCookies(["userEmail"]);
+  const [cookies, setCookie] = useCookies(['userEmail']);
 
   useEffect(() => {
     setLoading(true);
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate("/");
+        navigate('/');
         setLoading(false);
       } else {
         setLoading(false);
@@ -30,16 +30,16 @@ const Login = () => {
   }, [navigate]);
 
   let initialValues = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string().email("correo invalido.").required("Required"),
+    email: Yup.string().email('correo invalido.').required('Required'),
     password: Yup.string()
-      .required("Required")
-      .min("6", "Debe tener al menos 6 caracteres")
-      .matches(/^[a-zA-Z]+$/, "Constraseña solo puede contener letras."),
+      .required('Required')
+      .min('6', 'Debe tener al menos 6 caracteres')
+      .matches(/^[a-zA-Z]+$/, 'Constraseña solo puede contener letras.'),
   });
 
   const handleSumbit = (e) => {
@@ -50,13 +50,13 @@ const Login = () => {
       setLoading(true);
 
       // Set the email cookie when the user logs in
-      setCookie("userEmail", email, { path: "/" });
+      setCookie('userEmail', email, { path: '/' });
       console.log('Stored userEmail cookie:', cookies.userEmail);
     } else {
       setLoading(false);
-      alert("Revise los datos ingresados.");
+      alert('Revise los datos ingresados.');
     }
-    console.log("formik", formik);
+    console.log('formik', formik);
   };
 
   const formik = useFormik({ initialValues, validationSchema, handleSumbit });
@@ -85,7 +85,7 @@ const Login = () => {
                   name="email"
                   className="w-full px-3 py-2 border rounded-md"
                   placeholder="Enter your email"
-                  {...formik.getFieldProps("email")}
+                  {...formik.getFieldProps('email')}
                 />
               </div>
               <div>
@@ -108,7 +108,7 @@ const Login = () => {
                   name="password"
                   className="w-full px-3 py-2 border rounded-md"
                   placeholder="Enter your password"
-                  {...formik.getFieldProps("password")}
+                  {...formik.getFieldProps('password')}
                 />
               </div>
               <div>
@@ -135,13 +135,13 @@ const Login = () => {
               </button>
             </form>
             <div className="mt-4 text-center">
-              Don't have an account?{" "}
+              Don't have an account?{' '}
               <Link to="/register" className="text-blue-500 hover:underline">
                 Sign up
               </Link>
             </div>
             <div className="mt-2 text-center">
-              Forgot your password?{" "}
+              Forgot your password?{' '}
               <Link to="/reset" className="text-blue-500 hover:underline">
                 Reset Password
               </Link>
