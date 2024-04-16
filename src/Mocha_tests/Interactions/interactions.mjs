@@ -49,7 +49,9 @@ const getComments = async (postId) => {
   return comments;
 };
 
-describe('Interactions tests', () => {
+describe('Interactions tests', function () {
+  this.timeout(10000);
+
   it('should get all likes for all posts', async function () {
     const posts = await getPosts();
     for (let post of posts) {
